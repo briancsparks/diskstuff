@@ -6,6 +6,7 @@ import (
   "fmt"
   "io/fs"
   "log"
+  "path/filepath"
   "regexp"
   "strings"
   "syscall"
@@ -45,6 +46,7 @@ func FixNames(folder string, config *Config) error {
       }
     }
 
+    processIt = true
     if processIt {
       newpath := strings.ReplaceAll(strings.ToLower(path), " ", "-")
       newpath = re.ReplaceAllString(newpath, "_")
@@ -54,8 +56,10 @@ func FixNames(folder string, config *Config) error {
           //os.MkdirAll(newpath, 0755)
         }
       } else {
-        //fmt.Printf("cp '%s' '%s' \n", path, newpath)
-        filenames[path] = newpath
+        if path != newpath && filepath.Dir(path) != filepath.Dir(newpath) {
+          //fmt.Printf("cp '%s' '%s' \n", path, newpath)
+          filenames[path] = newpath
+        }
       }
     }
 

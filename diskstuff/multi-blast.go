@@ -60,6 +60,7 @@ func (m *MultiBlast) cpMany(filenames map[string]string) error {
 }
 
 func (m *MultiBlast) cp(src, dest string) (int64, error) {
+
   destDir := filepath.Dir(dest)
   _, err := m.mkdirpify(destDir)
   if err != nil {
